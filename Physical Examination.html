@@ -1,0 +1,3532 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Examination - الفحص الجسدي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-ar: 'Cairo', sans-serif;
+            --font-en: 'Roboto', sans-serif;
+            
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            
+            --secondary: #10B981;
+            --secondary-dark: #059669;
+            --secondary-light: #34D399;
+            
+            --accent: #F59E0B;
+            --accent-dark: #D97706;
+            
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            
+            --bg: #FFFFFF;
+            --bg-secondary: #F9FAFB;
+            --bg-card: #FFFFFF;
+            
+            --text: #111827;
+            --text-light: #6B7280;
+            
+            --border: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        body.dark-mode {
+            --bg: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-card: #1E293B;
+            --text: #F1F5F9;
+            --text-light: #CBD5E1;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-ar);
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .english-text {
+            font-family: var(--font-en);
+        }
+
+        /* Welcome Screen */
+        #welcome-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .welcome-content {
+            text-align: center;
+            color: white;
+            animation: welcomeSlideUp 0.8s ease-out;
+        }
+
+        @keyframes welcomeSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .welcome-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .lecture-en-big {
+            font-size: 3.5rem;
+            font-weight: 900;
+            font-family: var(--font-en);
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .lecture-ar-big {
+            font-size: 3rem;
+            font-weight: 900;
+            font-family: var(--font-ar);
+            color: #FFD700;
+            text-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .developer-credit {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: var(--font-en);
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 2rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6)); }
+            to { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9)); }
+        }
+
+        .loading-bar {
+            width: 400px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 2rem auto 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FF6B6B, #FFD700);
+            background-size: 200% 100%;
+            animation: loadProgress 4s ease-in-out forwards, shimmer 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loadProgress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode header {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        header.hidden { 
+            transform: translateY(-100%); 
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .site-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .developer-name {
+            font-family: var(--font-en);
+            font-size: 1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #F7DC6F 75%, #BB8FCE 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .main-nav a {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .main-nav a.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 100px;
+        }
+
+        .page {
+            display: none;
+            padding: 120px 1rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .page.active-page {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 2rem 0 1rem;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 1rem 0 0.5rem;
+            color: var(--text);
+        }
+
+        /* Content Sections */
+        .concept-slide, .numbered-section {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .numbered-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .dual-text-row {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .english-side {
+            flex: 1;
+            font-family: var(--font-en);
+            padding: 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+        }
+
+        .arabic-side {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Flashcards */
+        .flashcard-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .flashcard {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            perspective: 1000px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .flashcard-front {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: var(--gradient-secondary);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flashcard h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .flashcard h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .flashcard-counter {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .flashcard-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .flashcard-controls button {
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .flashcard-controls button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .speak-flashcard-btn {
+            background: var(--gradient-secondary) !important;
+        }
+
+        /* Question Bank */
+        .question-card {
+            margin-bottom: 2rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .option {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+
+        .option.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .option.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #EF4444;
+        }
+
+        .explanation {
+            padding: 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 10px;
+            margin-top: 1rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        /* Exam Tricks */
+        .trick-card {
+            margin-bottom: 2rem;
+        }
+
+        .trick-explanation {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .keywords-master-box {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .keyword-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .keyword-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .keyword-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .keyword-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Comparisons */
+        .comparison-container {
+            margin-bottom: 2rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 1rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-header {
+            display: flex;
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .comparison-title-en, .comparison-title-ar {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .comparison-vs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1rem;
+            font-weight: 900;
+        }
+
+        .comparison-row, .comparison-row-ar {
+            display: flex;
+        }
+
+        .comparison-row {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-cell-left, .comparison-cell-right, .comparison-cell-left-ar, .comparison-cell-right-ar {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        .comparison-cell-left, .comparison-cell-left-ar {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .comparison-cell-right, .comparison-cell-right-ar {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        /* Audio Dictionary */
+        .glossary-item {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .speak-btn {
+            align-self: flex-start;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .speak-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Important Numbers */
+        .number-card {
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .number-highlight {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin: 1rem 0;
+            text-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1E40AF, #2563EB, #10B981);
+            color: white;
+            padding: 4rem 2rem;
+            margin-top: 5rem;
+            border-top: 5px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .contact-number {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #FFD700;
+        }
+
+        .footer-dedication {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 3rem auto;
+            max-width: 900px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dedication-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .footer-dedication h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #FFD700;
+        }
+
+        .footer-dedication p {
+            font-size: 1.2rem;
+            line-height: 2;
+            font-weight: 600;
+        }
+
+        .footer-dedication strong {
+            color: #FFD700;
+            font-size: 1.1rem;
+        }
+
+        .footer-developer {
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            padding-top: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .main-nav {
+                justify-content: center;
+            }
+            
+            .dual-text-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .keyword-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .contact-item {
+                width: 100%;
+            }
+            
+            .footer-dedication {
+                padding: 2rem 1rem;
+            }
+            
+            .footer-dedication p {
+                font-size: 1rem;
+            }
+            
+            .lecture-en-big {
+                font-size: 2.5rem;
+            }
+            
+            .lecture-ar-big {
+                font-size: 2rem;
+            }
+            
+            .loading-bar {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <div class="welcome-icon">🩺</div>
+            <div class="lecture-title-main">
+                <p class="lecture-en-big">Physical Examination</p>
+                <p class="lecture-ar-big">الفحص الجسدي</p>
+            </div>
+            <p class="developer-credit">by Mohamed Salah</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="site-title">📚 منصة التمريض الذكية</div>
+                <div class="developer-name">by Mohamed Salah</div>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#" onclick="navigateToPage('page1', this)" class="active">📖 الشرح</a>
+                <a href="#" onclick="navigateToPage('page2', this)">🎴 فلاش كاردز</a>
+                <a href="#" onclick="navigateToPage('page3', this)">❓ بنك الأسئلة</a>
+                <a href="#" onclick="navigateToPage('page4', this)">💡 التريكات</a>
+                <a href="#" onclick="navigateToPage('page5', this)">📝 المراجعة</a>
+                <a href="#" onclick="navigateToPage('page6', this)">🔄 المقارنات</a>
+                <a href="#" onclick="navigateToPage('page7', this)">🔊 القاموس</a>
+                <a href="#" onclick="navigateToPage('page8', this)">🔢 الأرقام</a>
+            </nav>
+            
+            <button class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page 1: Detailed Explanation -->
+        <div id="page1" class="page active-page">
+            <h1>📖 Detailed Explanation - الشرح المفصل</h1>
+            
+            <div class="concept-slide numbered-section">
+                <h2>Physical Examination (الفحص الجسدي)</h2>
+                
+                <div class="numbered-item">
+                    <h3>Definition (التعريف)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            Physical examination is a systematic approach of collecting objective data about health status. It employs through detailed evaluation of patient's all body structures, organs, or systems by use of examiner's senses (visual, tactile, olfactory and auditory).
+                        </div>
+                        <div class="arabic-side">
+                            الفحص الجسدي هو منهجية منظمة لجمع البيانات الموضوعية عن الحالة الصحية. يتم من خلال التقييم المفصل لجميع هياكل وأعضاء وأجهزة جسم المريض باستخدام حواف الفاحص (البصرية، اللمسية، الشمية والسمعية).
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Learning Objectives (أهداف التعلم)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Define of physical examination<br>
+                            - Discuss Component of physical examination<br>
+                            - Demonstrate Techniques of physical examination
+                        </div>
+                        <div class="arabic-side">
+                            - تعريف الفحص الجسدي<br>
+                            - مناقشة مكونات الفحص الجسدي<br>
+                            - عرض تقنيات الفحص الجسدي
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Possible Client Position During an Examination (الوضعيات الممكنة للمريض أثناء الفحص)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            The document mentions possible client positions during examination but does not provide specific details. Common positions include:<br>
+                            - Sitting position<br>
+                            - Supine position (lying on back)<br>
+                            - Lithotomy position<br>
+                            - Sims' position<br>
+                            - Fowler's position
+                        </div>
+                        <div class="arabic-side">
+                            المستند يذكر الوضعيات الممكنة للمريض أثناء الفحص لكن لا يوفر تفاصيل محددة. الوضعيات الشائعة تشمل:<br>
+                            - وضع الجلوس<br>
+                            - وضع الاستلقاء على الظهر<br>
+                            - وضع الليثوتومي<br>
+                            - وضع سيمز<br>
+                            - وضع فاولر
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Steps of Assessment (خطوات التقييم)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            <strong>Prepare Environment:</strong><br>
+                            - Prepare equipment needed (clean surface & should be clean & well functioning equipment)<br>
+                            - Room: should be quiet, warm & well lit<br>
+                            - Maintain privacy
+                        </div>
+                        <div class="arabic-side">
+                            <strong>تحضير البيئة:</strong><br>
+                            - تحضير المعدات اللازمة (سطح نظيف ويجب أن تكون المعدات نظيفة وعملية)<br>
+                            - الغرفة: يجب أن تكون هادئة، دافئة ومضاءة جيداً<br>
+                            - الحفاظ على الخصوصية
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Component of Physical Examination (مكونات الفحص الجسدي)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. General Survey<br>
+                            2. Vital Signs Measurement<br>
+                            3. Height and Weight Measurement<br>
+                            4. Body System Examination
+                        </div>
+                        <div class="arabic-side">
+                            1. المسح العام<br>
+                            2. قياس العلامات الحيوية<br>
+                            3. قياس الطول والوزن<br>
+                            4. فحص أجهزة الجسم
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Techniques of Physical Examination (تقنيات الفحص الجسدي)</h3>
+                    
+                    <h4>1. Inspection (الفحص البصري)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Is the systematic and thorough observation of the client and specific areas of the body<br>
+                            - Inspection includes examining the client for changes in skin color, temperature, or both<br>
+                            - Observing a wound for signs of healing or infection<br>
+                            - Generally noting color, size, location, texture, symmetry, odors, and sounds
+                        </div>
+                        <div class="arabic-side">
+                            - هو الملاحظة المنهجية والشاملة للمريض ومناطق محددة من الجسم<br>
+                            - يشمل الفحص البصري فحص المريض للتغيرات في لون الجلد، درجة الحرارة، أو كليهما<br>
+                            - ملاحظة الجرح لعلامات الشفاء أو العدوى<br>
+                            - بشكل عام ملاحظة اللون، الحجم، الموقع، الملمس، التماثل، الروائح، والأصوات
+                        </div>
+                    </div>
+                    
+                    <h4>Guidelines for Effective Inspection (إرشادات للفحص البصري الفعال)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Be systematic<br>
+                            - Fully expose the area to be inspected; cover other body parts to respect the patient's dignity<br>
+                            - Use good light, preferably natural light<br>
+                            - Maintain comfortable room temperature<br>
+                            - Observe color, shape, size, symmetry, position, and movement<br>
+                            - Compare bilateral structures for similarities and differences
+                        </div>
+                        <div class="arabic-side">
+                            - كن منهجياً<br>
+                            - اكشف المنطقة المراد فحصها بالكامل؛ غطِ أجزاء الجسم الأخرى احتراماً لكرامة المريض<br>
+                            - استخدم إضاءة جيدة، ويفضل الضوء الطبيعي<br>
+                            - حافظ على درجة حرارة غرفة مريحة<br>
+                            - لاحظ اللون، الشكل، الحجم، التماثل، الموضع، والحركة<br>
+                            - قارن الهياكل الثنائية للتشابه والاختلاف
+                        </div>
+                    </div>
+                    
+                    <h4>2. Palpation (الجس)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Is assessing the characteristics of an organ or body part by touching and feeling it with the hands or fingertips<br>
+                            - The process of palpation provides information about texture, temperature, moisture, motion, and consistency or firmness of structures (solid vs fluid)<br>
+                            - Palpation detects abnormal conditions, such as enlarged organs, tumors, or fluid in a cavity
+                        </div>
+                        <div class="arabic-side">
+                            - هو تقييم خصائص عضو أو جزء من الجسم عن طريق لمسه وشعوره باليدين أو أطراف الأصابع<br>
+                            - عملية الجس توفر معلومات عن الملمس، درجة الحرارة، الرطوبة، الحركة، والاتساق أو صلابة الهياكل (صلب مقابل سائل)<br>
+                            - الجس يكتشف الحالات غير الطبيعية، مثل الأعضاء المتضخمة، الأورام، أو السوائل في تجويف
+                        </div>
+                    </div>
+                    
+                    <h4>Types of Palpation (أنواع الجس)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            <strong>Fine:</strong> Pulse, Texture, Moisture, Masses, Size, Consistency, Shape, Crepitus<br><br>
+                            <strong>Pulmer Surface:</strong> Vibration<br><br>
+                            <strong>Dorsal (Back) Surface:</strong> Temperature
+                        </div>
+                        <div class="arabic-side">
+                            <strong>دقيق:</strong> النبض، الملمس، الرطوبة، الكتل، الحجم، الاتساق، الشكل، فرقعة المفاصل<br><br>
+                            <strong>سطح الراحة:</strong> الاهتزاز<br><br>
+                            <strong>السطح الظهري (الظهر):</strong> درجة الحرارة
+                        </div>
+                    </div>
+                    
+                    <h4>Types of Palpation by Depth (أنواع الجس حسب العمق)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            <strong>1- Light palpation:</strong> To feel for pulses, check muscle tone, assess for tenderness, surface skin texture, temperature and moisture<br><br>
+                            <strong>2- Moderate Palpation:</strong> (Depress the skin surface from 1-2 cm.) To palpate the body organs and masses note the Size, Consistency and mobility of the structure<br><br>
+                            <strong>3- Deep Palpation:</strong> surface depression between 2.5-5 cm. To identify abdominal organs or structures that are covered by thick muscles and abdominal masses<br><br>
+                            <strong>4- Bimanual Palpation:</strong> use two hands, placing one on each side of the body part (eg, uterus and breast). Use one hand to apply pressure and other to feel the structure
+                        </div>
+                        <div class="arabic-side">
+                            <strong>1- الجس الخفيف:</strong> للشعور بالنبض، فحص نغمة العضلات، تقييم الألم، ملمس سطح الجلد، درجة الحرارة والرطوبة<br><br>
+                            <strong>2- الجس المعتدل:</strong> (ضغط سطح الجلد من 1-2 سم) لجس أعضاء الجسم والكتل وملاحظة الحجم، الاتساق وحركة الهيكل<br><br>
+                            <strong>3- الجس العميق:</strong> انخفاض السطح بين 2.5-5 سم لتحديد أعضاء البطن أو الهياكل المغطاة بالعضلات السميكة وكتل البطن<br><br>
+                            <strong>4- الجس ثنائي اليد:</strong> استخدام يدين، وضع واحدة على كل جانب من جزء الجسم (مثل الرحم والثدي). استخدام يد واحدة لتطبيق الضغط والأخرى للشعور بالهيكل
+                        </div>
+                    </div>
+                    
+                    <h4>Principles for Accurate Palpation (مبادئ الجس الدقيق)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Examiner finger nails should be short<br>
+                            - Start with light then deep palpation<br>
+                            - Tender area are palpated last<br>
+                            - Client must relax during palpation<br>
+                            - Tell client to take slow deep breath to enhance muscle relaxation
+                        </div>
+                        <div class="arabic-side">
+                            - يجب أن تكون أظافر الفاحص قصيرة<br>
+                            - ابدأ بالجس الخفيف ثم العميق<br>
+                            - المناطق الحساسة تُفحص في النهاية<br>
+                            - يجب أن يكون المريض مسترخياً أثناء الجس<br>
+                            - أخبر المريض بأخذ أنفاس عميقة وبطيئة لتعزيز استرخاء العضلات
+                        </div>
+                    </div>
+                    
+                    <h4>Characteristics Found Through Palpation (الخصائص التي يمكن العثور عليها من خلال الجس)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Texture: rough / smooth<br>
+                            - Temperature: warm / cold<br>
+                            - Moisture: dry / wet<br>
+                            - Mobility: fixed / movable / vibrating<br>
+                            - Consistency: soft / hard / fluid filled<br>
+                            - Strength of pulse: strong / weak / bounding<br>
+                            - Size: small / medium / large<br>
+                            - Shape: well defined / irregular<br>
+                            - Degree of tenderness
+                        </div>
+                        <div class="arabic-side">
+                            - الملمس: خشن / ناعم<br>
+                            - درجة الحرارة: دافئ / بارد<br>
+                            - الرطوبة: جاف / رطب<br>
+                            - الحركة: ثابت / متحرك / مهتز<br>
+                            - الاتساق: ناعم / صلب / مملوء بسائل<br>
+                            - قوة النبض: قوي / ضعيف / قافز<br>
+                            - الحجم: صغير / متوسط / كبير<br>
+                            - الشكل: محدد جيداً / غير منتظم<br>
+                            - درجة الألم
+                        </div>
+                    </div>
+                    
+                    <h4>3. Percussion (القرع)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Is tapping the person's skin with short sharp strokes to assess underlying structures<br>
+                            - It is done by placing the index or middle finger of the non-dominant hand firmly on the surface to be percussed<br>
+                            - Only the finger should have contact with skin surface<br>
+                            - Raise the other fingers and heel of the hand off the surface<br>
+                            - Deliver one to three tapes and then move the non-dominant finger to another area
+                        </div>
+                        <div class="arabic-side">
+                            - هو النقر على جلد الشخص بضربات قصيرة وحادة لتقييم الهياكل الأساسية<br>
+                            - يتم عن طريق وضع السبابة أو الوسطى لليد غير المهيمنة بإحكام على السطح المراد قرعه<br>
+                            - يجب أن يكون الإصبع فقط هو الملامس لسطح الجلد<br>
+                            - ارفع الأصابع الأخرى وكعب اليد عن السطح<br>
+                            - وجه ضربة واحدة إلى ثلاث ثم انقل الإصبع غير المهيمن إلى منطقة أخرى
+                        </div>
+                    </div>
+                    
+                    <h4>Percussion Sounds (أصوات القرع)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            <strong>Resonance:</strong> Heard over part air and part solid. A hollow sound. Over normal lung<br><br>
+                            <strong>Hyper resonance:</strong> Heard over mostly air as Lung with emphysema<br><br>
+                            <strong>Tympany:</strong> Heard over air. A musical sound or drum sound like that produced by the stomach. Puffed out cheek, gastric bubble<br><br>
+                            <strong>Dullness:</strong> Heard over more solid tissue. Thud sound produced by dense structures such as diaphragm, liver, and enlarged spleen, or a full bladder<br><br>
+                            <strong>Flatness:</strong> heard over very dense tissue. An extremely dull sound like that produced by very dense structures such as muscle or bone
+                        </div>
+                        <div class="arabic-side">
+                            <strong>الرنين:</strong> يُسمع فوق جزء هواء وجسم صلب. صوت جوف. فوق الرئة الطبيعية<br><br>
+                            <strong>الرنين الزائد:</strong> يُسمع فوق معظم الهواء كما في الرئة مع انتفاخ الرئة<br><br>
+                            <strong>الطبلة:</strong> يُسمع فوق الهواء. صوت موسيقي أو صوت طبول مثل الذي ينتجه المعدة. الخد المنتفخ، فقاعة المعدة<br><br>
+                            <strong>الصمت:</strong> يُسمع فوق أنسجة أكثر صلابة. صوت طردي ينتجه هياكل كثيفة مثل الحجاب الحاجز، الكبد، والطحال المتضخم، أو المثانة الممتلئة<br><br>
+                            <strong>الانبساط:</strong> يُسمع فوق أنسجة كثيفة جداً. صوت صامت جداً مثل الذي ينتجه هياكل كثيفة جداً مثل العضلات أو العظام
+                        </div>
+                    </div>
+                    
+                    <h4>4. Auscultation (السماع)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Is listening with a stethoscope to the sounds produced by organs such as the heart, lungs, blood vessels, and intestines<br>
+                            - Auscultation is listening to sounds produced inside the body<br>
+                            - It is used to detect the presence of normal and abnormal sounds and to assess them in terms of loudness, pitch, quality, frequency and duration
+                        </div>
+                        <div class="arabic-side">
+                            - هو الاستماع بالسماعة الطبية إلى الأصوات التي تنتجها أعضاء مثل القلب، الرئتين، الأوعية الدموية، والأمعاء<br>
+                            - السماع هو الاستماع إلى الأصوات التي تنتج داخل الجسم<br>
+                            - يستخدم للكشف عن وجود الأصوات الطبيعية وغير الطبيعية وتقييمها من حيث الشدة، الارتفاع، الجودة، التكرار والمدة
+                        </div>
+                    </div>
+                    
+                    <h4>Types of Stethoscope Use (أنواع استخدام السماعة الطبية)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            <strong>Diaphragm:</strong> Use the diaphragm of the stethoscope to listen to pitched sounds, such as normal heart sounds, breath, bowel sounds, press the diaphragm firmly on the body part being auscultate<br><br>
+                            <strong>Bell:</strong> Use the bell of the stethoscope to listen for low pitched sounds, such as abnormal heart sounds and bruits, or murmuring sounds hearts during auscultation
+                        </div>
+                        <div class="arabic-side">
+                            <strong>الغشاء:</strong> استخدم غشاء السماعة الطبية للاستماع إلى الأصوات ذات النغمة العالية، مثل أصوات القلب الطبيعية، التنفس، أصوات الأمعاء، اضغط الغشاء بإحكام على جزء الجسم الذي يتم سماعه<br><br>
+                            <strong>الجرس:</strong> استخدم جرس السماعة الطبية للاستماع إلى الأصوات ذات النغمة المنخفضة، مثل أصوات القلب غير الطبيعية والهمهمات، أو أصوات القلب المهمهمة أثناء السماع
+                        </div>
+                    </div>
+                    
+                    <h4>5. Olfaction (الشم)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Another skill that used during assessment, is smell body odors, smelling can detect abnormalities in body system
+                        </div>
+                        <div class="arabic-side">
+                            - مهارة أخرى تستخدم أثناء التقييم، هي شم روائح الجسم، الشم يمكنه الكشف عن التشوهات في نظام الجسم
+                        </div>
+                    </div>
+                    
+                    <h4>Assessment of Abnormal Odors (تقييم الروائح غير الطبيعية)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Alcohol odor from oral mouth → ingestion of alcohol<br>
+                            - Ammonia from urine → urinary tract infection<br>
+                            - Bad odor from skin, (under arms and beneath breasts) means poor hygiene<br>
+                            - Halitosis from oral cavity means poor dental hygiene
+                        </div>
+                        <div class="arabic-side">
+                            - رائحة الكحول من الفم → تناول الكحول<br>
+                            - الأمونيا من البول → عدوى المسالك البولية<br>
+                            - رائحة كريهة من الجلد (تحت الإبطين وتحت الثديين) تعني نقص النظافة<br>
+                            - رائحة الفم الكريهة تعني نقص نظافة الأسنان
+                        </div>
+                    </div>
+                    
+                    <h4>Laboratory and Diagnostic Data (بيانات المختبر والتشخيص)</h4>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            - Results of laboratory and diagnostic test can be useful objective data to identify any changes in patient health states<br>
+                            - Also help to certain suspected problems. For example, diabetic patients usually have an elevated blood glucose level<br>
+                            - In addition, it define the effectiveness of nursing and medical interventions and progress toward health restoration
+                        </div>
+                        <div class="arabic-side">
+                            - نتائج اختبارات المختبر والتشخيص يمكن أن تكون بيانات موضوعية مفيدة لتحديد أي تغييرات في حالات المريض الصحية<br>
+                            - كما تساعد في تأكيد المشاكل المشتبه بها. على سبيل المثال، مرضى السكري عادة ما لديهم مستوى جلوكوز في الدم مرتفع<br>
+                            - بالإضافة إلى ذلك، تحدد فعالية التدخلات التمريضية والطبية والتقدم نحو استعادة الصحة
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: Flashcards -->
+        <div id="page2" class="page">
+            <h1>🎴 Flashcards - البطاقات التعليمية</h1>
+            
+            <div class="flashcard-section">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h2 id="card-front-text">Physical Examination</h2>
+                        </div>
+                        <div class="flashcard-back">
+                            <!-- يملأ ديناميكياً -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flashcard-counter">
+                    <span id="current-card">1</span> / <span id="total-cards">30</span>
+                </div>
+                
+                <div class="flashcard-controls">
+                    <button onclick="prevCard()">⏮️ Previous - السابق</button>
+                    <button onclick="flipCard()">🔄 Flip - اقلب</button>
+                    <button onclick="speakFlashcard()" class="speak-flashcard-btn">🔊 Pronounce - انطق</button>
+                    <button onclick="nextCard()">Next - التالي ⏭️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: Question Bank -->
+        <div id="page3" class="page">
+            <h1>❓ Question Bank - بنك الأسئلة</h1>
+            
+            <div class="question-card numbered-section">
+                <div class="numbered-item">
+                    <h3>What is the best definition of physical examination?</h3>
+                    <h4>ما هو أفضل تعريف للفحص الجسدي؟</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Collecting subjective data about health status<br>جمع البيانات الذاتية عن الحالة الصحية</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) A systematic collection of objective data about health status using the examiner's senses<br>جمع منهجي للبيانات الموضوعية عن الحالة الصحية باستخدام حواس الفاحص</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Observation of behavior only<br>ملاحظة السلوك فقط</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Assessment using laboratory tests only<br>التقييم باستخدام اختبارات المختبر فقط</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) A systematic collection of objective data about health status using the examiner's senses</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Physical examination is defined as a systematic approach of collecting objective data about health status through detailed evaluation of patient's body structures, organs, or systems by use of examiner's senses (visual, tactile, olfactory and auditory).
+                            </div>
+                            <div class="arabic-side">
+                                الفحص الجسدي يُعرّف بأنه منهجية منظمة لجمع البيانات الموضوعية عن الحالة الصحية من خلال التقييم المفصل لهياكل وأعضاء وأجهزة جسم المريض باستخدام حواس الفاحص (البصرية، اللمسية، الشمية والسمعية).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Which of the following is not a sense used during physical examination?</h3>
+                    <h4>أي من التالي ليس من الحواس المستخدمة أثناء الفحص الجسدي؟</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Visual<br>بصري</div>
+                        <div class="option" onclick="checkAnswer(this, false)">B) Tactile<br>لمسي</div>
+                        <div class="option" onclick="checkAnswer(this, true)">C) Gustatory<br>ذوقي</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Auditory<br>سمعي</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: C) Gustatory</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                The senses used during physical examination are visual (sight), tactile (touch), olfactory (smell), and auditory (hearing). Gustatory (taste) is not typically used during physical examination.
+                            </div>
+                            <div class="arabic-side">
+                                الحواس المستخدمة أثناء الفحص الجسدي هي البصرية (النظر)، اللمسية (اللمس)، الشمية (الشم)، والسمعية (السماع). الحاسة الذوقية (التذوق) لا تستخدم عادة أثناء الفحص الجسدي.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>During environmental preparation for physical examination, the room should be:</h3>
+                    <h4>أثناء تحضير البيئة للفحص الجسدي، يجب أن تكون الغرفة:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Bright, cold, and noisy<br>مضاءة، باردة، وصاخبة</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Quiet, warm, and well-lit<br>هادئة، دافئة، ومضاءة جيداً</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Dim and cool<br>معتمة وباردة</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Warm and dark<br>دافئة ومظلمة</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Quiet, warm, and well-lit</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                According to the lecture, during environmental preparation for physical examination, the room should be quiet, warm, and well-lit to ensure patient comfort and proper examination conditions.
+                            </div>
+                            <div class="arabic-side">
+                                وفقاً للمحاضرة، أثناء تحضير البيئة للفحص الجسدي، يجب أن تكون الغرفة هادئة، دافئة، ومضاءة جيداً لضمان راحة المريض وظروف الفحص المناسبة.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Inspection involves:</h3>
+                    <h4>الفحص البصري يشمل:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Touching the patient to assess temperature<br>لمس المريض لتقييم درجة الحرارة</div>
+                        <div class="option" onclick="checkAnswer(this, false)">B) Listening to body sounds<br>الاستماع إلى أصوات الجسم</div>
+                        <div class="option" onclick="checkAnswer(this, true)">C) Systematic visual observation of body structures<br>الملاحظة البصرية المنهجية لهياكل الجسم</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Smelling body odors<br>شم روائح الجسم</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: C) Systematic visual observation of body structures</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Inspection is defined as the systematic and thorough observation of the client and specific areas of the body. It includes examining for changes in skin color, temperature, and noting color, size, location, texture, symmetry, odors, and sounds.
+                            </div>
+                            <div class="arabic-side">
+                                الفحص البصري يُعرّف بأنه الملاحظة المنهجية والشاملة للمريض ومناطق محددة من الجسم. يشمل فحص التغيرات في لون الجلد، درجة الحرارة، وملاحظة اللون، الحجم، الموقع، الملمس، التماثل، الروائح، والأصوات.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Which of the following is a guideline for effective inspection?</h3>
+                    <h4>أي من التالي هو إرشاد للفحص البصري الفعال؟</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Use dim light for patient comfort<br>استخدم إضاءة خافتة لراحة المريض</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Always compare bilateral structures<br>قارن دائماً الهياكل الثنائية</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Keep the patient fully covered<br>حافظ على تغطية المريض بالكامل</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Observe only abnormal areas<br>لاحظ فقط المناطق غير الطبيعية</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Always compare bilateral structures</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                One of the guidelines for effective inspection is to compare bilateral structures for similarities and differences. This helps in identifying asymmetries or abnormalities.
+                            </div>
+                            <div class="arabic-side">
+                                أحد إرشادات الفحص البصري الفعال هو مقارنة الهياكل الثنائية للتشابه والاختلاف. هذا يساعد في تحديد عدم التماثل أو التشوهات.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Palpation is used to assess all the following except:</h3>
+                    <h4>الجس يستخدم لتقييم كل ما يلي ما عدا:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Texture<br>الملمس</div>
+                        <div class="option" onclick="checkAnswer(this, false)">B) Temperature<br>درجة الحرارة</div>
+                        <div class="option" onclick="checkAnswer(this, true)">C) Color<br>اللون</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Consistency<br>الاتساق</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: C) Color</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Palpation is used to assess characteristics like texture, temperature, moisture, motion, consistency, and firmness of structures. Color is assessed through inspection, not palpation.
+                            </div>
+                            <div class="arabic-side">
+                                الجس يستخدم لتقييم خصائص مثل الملمس، درجة الحرارة، الرطوبة، الحركة، الاتساق، وصلابة الهياكل. اللون يتم تقييمه من خلال الفحص البصري، وليس الجس.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>The dorsal surface (back) of the hand is used during palpation to assess:</h3>
+                    <h4>السطح الظهري (الظهر) من اليد يستخدم أثناء الجس لتقييم:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Texture<br>الملمس</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Temperature<br>درجة الحرارة</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Vibration<br>الاهتزاز</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Moisture<br>الرطوبة</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Temperature</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                According to the lecture, the dorsal (back) surface of the hand is used during palpation to assess temperature.
+                            </div>
+                            <div class="arabic-side">
+                                وفقاً للمحاضرة، السطح الظهري (الظهر) من اليد يستخدم أثناء الجس لتقييم درجة الحرارة.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Light palpation is mainly used to:</h3>
+                    <h4>الجس الخفيف يستخدم بشكل أساسي لـ:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Assess deep abdominal organs<br>تقييم أعضاء البطن العميقة</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Feel for pulses, skin texture, and tenderness<br>الشعور بالنبض، ملمس الجلد، والألم</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Detect fluid in deep cavities<br>كشف السوائل في التجاويف العميقة</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Palpate the uterus and breast<br>جس الرحم والثدي</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Feel for pulses, skin texture, and tenderness</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Light palpation is used to feel for pulses, check muscle tone, assess for tenderness, surface skin texture, temperature and moisture.
+                            </div>
+                            <div class="arabic-side">
+                                الجس الخفيف يستخدم للشعور بالنبض، فحص نغمة العضلات، تقييم الألم، ملمس سطح الجلد، درجة الحرارة والرطوبة.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Deep palpation involves depressing the skin surface by:</h3>
+                    <h4>الجس العميق يتضمن ضغط سطح الجلد بـ:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) 1 cm<br>1 سم</div>
+                        <div class="option" onclick="checkAnswer(this, false)">B) 1–2 cm<br>1-2 سم</div>
+                        <div class="option" onclick="checkAnswer(this, true)">C) 2.5–5 cm<br>2.5-5 سم</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) More than 6 cm<br>أكثر من 6 سم</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: C) 2.5–5 cm</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Deep palpation involves depressing the skin surface between 2.5-5 cm to identify abdominal organs or structures that are covered by thick muscles and abdominal masses.
+                            </div>
+                            <div class="arabic-side">
+                                الجس العميق يتضمن ضغط سطح الجلد بين 2.5-5 سم لتحديد أعضاء البطن أو الهياكل المغطاة بالعضلات السميكة وكتل البطن.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Bimanual palpation means:</h3>
+                    <h4>الجس ثنائي اليد يعني:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Using one finger to tap the surface<br>استخدام إصبع واحد لنقر السطح</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Using two hands on each side of the body part<br>استخدام يدين على كل جانب من جزء الجسم</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Using the stethoscope and hand together<br>استخدام السماعة الطبية واليد معاً</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Using fingertips for deep palpation<br>استخدام أطراف الأصابع للجس العميق</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Using two hands on each side of the body part</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Bimanual palpation means using two hands, placing one on each side of the body part (e.g., uterus and breast). One hand is used to apply pressure and the other to feel the structure.
+                            </div>
+                            <div class="arabic-side">
+                                الجس ثنائي اليد يعني استخدام يدين، وضع واحدة على كل جانب من جزء الجسم (مثل الرحم والثدي). تستخدم يد واحدة لتطبيق الضغط والأخرى للشعور بالهيكل.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Percussion is performed by:</h3>
+                    <h4>القرع يتم عن طريق:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Listening with a stethoscope<br>الاستماع بالسماعة الطبية</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Tapping the skin with short, sharp strokes to assess underlying structures<br>نقر الجلد بضربات قصيرة وحادة لتقييم الهياكل الأساسية</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Feeling vibrations with fingertips<br>الشعور بالاهتزازات بأطراف الأصابع</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Observing color changes<br>ملاحظة تغيرات اللون</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Tapping the skin with short, sharp strokes to assess underlying structures</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Percussion is defined as tapping the person's skin with short sharp strokes to assess underlying structures.
+                            </div>
+                            <div class="arabic-side">
+                                القرع يُعرّف بأنه النقر على جلد الشخص بضربات قصيرة وحادة لتقييم الهياكل الأساسية.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>The percussion sound "Tympany" is heard over:</h3>
+                    <h4>صوت القرع "الطبلة" يُسمع فوق:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Liver<br>الكبد</div>
+                        <div class="option" onclick="checkAnswer(this, false)">B) Bone<br>العظام</div>
+                        <div class="option" onclick="checkAnswer(this, true)">C) Stomach or bowel<br>المعدة أو الأمعاء</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Lung with fluid<br>رئة مع سوائل</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: C) Stomach or bowel</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Tympany is heard over air. It's a musical sound or drum sound like that produced by the stomach, such as puffed out cheek or gastric bubble.
+                            </div>
+                            <div class="arabic-side">
+                                الطبلة يُسمع فوق الهواء. هو صوت موسيقي أو صوت طبول مثل الذي ينتجه المعدة، مثل الخد المنتفخ أو فقاعة المعدة.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Resonance is normally heard over:</h3>
+                    <h4>الرنين يُسمع بشكل طبيعي فوق:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Bone<br>العظام</div>
+                        <div class="option" onclick="checkAnswer(this, false)">B) Liver<br>الكبد</div>
+                        <div class="option" onclick="checkAnswer(this, true)">C) Normal lung<br>الرئة الطبيعية</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Muscle<br>العضلات</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: C) Normal lung</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Resonance is heard over part air and part solid, producing a hollow sound. It is normally heard over the lungs.
+                            </div>
+                            <div class="arabic-side">
+                                الرنين يُسمع فوق جزء هواء وجسم صلب، منتجاً صوتاً جوفاً. يُسمع بشكل طبيعي فوق الرئتين.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>The bell of the stethoscope is used to listen to:</h3>
+                    <h4>جرس السماعة الطبية يستخدم للاستماع إلى:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) High-pitched sounds<br>الأصوات ذات النغمة العالية</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Low-pitched sounds such as murmurs and bruits<br>الأصوات ذات النغمة المنخفضة مثل الهمهمات والهمهمات الوعائية</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Breath sounds only<br>أصوات التنفس فقط</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Bowel sounds only<br>أصوات الأمعاء فقط</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Low-pitched sounds such as murmurs and bruits</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                The bell of the stethoscope is used to listen for low-pitched sounds, such as abnormal heart sounds and bruits, or murmuring sounds in the heart during auscultation.
+                            </div>
+                            <div class="arabic-side">
+                                جرس السماعة الطبية يستخدم للاستماع إلى الأصوات ذات النغمة المنخفضة، مثل أصوات القلب غير الطبيعية والهمهمات الوعائية، أو أصوات القلب المهمهمة أثناء السماع.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>A strong ammonia odor in urine during assessment may indicate:</h3>
+                    <h4>رائحة أمونيا قوية في البول أثناء التقييم قد تشير إلى:</h4>
+                    
+                    <div class="options">
+                        <div class="option" onclick="checkAnswer(this, false)">A) Liver disease<br>أمراض الكبد</div>
+                        <div class="option" onclick="checkAnswer(this, true)">B) Urinary tract infection<br>عدوى المسالك البولية</div>
+                        <div class="option" onclick="checkAnswer(this, false)">C) Diabetes mellitus<br>مرض السكري</div>
+                        <div class="option" onclick="checkAnswer(this, false)">D) Poor dental hygiene<br>نقص نظافة الأسنان</div>
+                    </div>
+                    
+                    <div class="explanation" style="display:none;">
+                        <h4>✅ Correct Answer: B) Urinary tract infection</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                According to the lecture, ammonia odor from urine may indicate a urinary tract infection.
+                            </div>
+                            <div class="arabic-side">
+                                وفقاً للمحاضرة، رائحة الأمونيا من البول قد تشير إلى عدوى المسالك البولية.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: Exam Tricks -->
+        <div id="page4" class="page">
+            <h1>💡 Exam Tricks - تريكات الامتحان</h1>
+            
+            <div class="trick-card numbered-section">
+                <div class="numbered-item">
+                    <h3>Q1 Analysis - تحليل السؤال الأول</h3>
+                    <h4>What is the best definition of physical examination?</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "best definition", "physical examination"<br>
+                                <strong>Why correct:</strong> The definition must include "systematic", "objective data", and "examiner's senses"<br>
+                                <strong>Elimination:</strong> Options A, C, and D are incomplete definitions
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "أفضل تعريف"، "الفحص الجسدي"<br>
+                                <strong>لماهو صحيح:</strong> التعريف يجب أن يتضمن "منهجي"، "بيانات موضوعية"، و"حواس الفاحص"<br>
+                                <strong>الاستبعاد:</strong> الخيارات A, C, D هي تعريفات غير مكتملة
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q2 Analysis - تحليل السؤال الثاني</h3>
+                    <h4>Which of the following is not a sense used during physical examination?</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "not a sense", "physical examination"<br>
+                                <strong>Why correct:</strong> The four senses used are visual, tactile, olfactory, and auditory<br>
+                                <strong>Elimination:</strong> Gustatory (taste) is not used in physical examination
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "ليست حاسة"، "الفحص الجسدي"<br>
+                                <strong>لماهو صحيح:</strong> الحواس الأربع المستخدمة هي البصرية، اللمسية، الشمية، والسمعية<br>
+                                <strong>الاستبعاد:</strong> الحاسة الذوقية (التذوق) لا تستخدم في الفحص الجسدي
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q3 Analysis - تحليل السؤال الثالث</h3>
+                    <h4>During environmental preparation for physical examination, the room should be:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "environmental preparation", "room should be"<br>
+                                <strong>Why correct:</strong> According to the lecture, the room should be quiet, warm, and well-lit<br>
+                                <strong>Elimination:</strong> Options A, C, and D describe inappropriate conditions for examination
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "تحضير البيئة"، "يجب أن تكون الغرفة"<br>
+                                <strong>لماهو صحيح:</strong> وفقاً للمحاضرة، يجب أن تكون الغرفة هادئة، دافئة، ومضاءة جيداً<br>
+                                <strong>الاستبعاد:</strong> الخيارات A, C, D تصف ظروف غير مناسبة للفحص
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q4 Analysis - تحليل السؤال الرابع</h3>
+                    <h4>Inspection involves:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Inspection", "involves"<br>
+                                <strong>Why correct:</strong> Inspection is defined as systematic visual observation of body structures<br>
+                                <strong>Elimination:</strong> Options A, B, and D describe other examination techniques (palpation, auscultation, olfaction)
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "الفحص البصري"، "يشمل"<br>
+                                <strong>لماهو صحيح:</strong> الفحص البصري يُعرّف بأنه الملاحظة البصرية المنهجية لهياكل الجسم<br>
+                                <strong>الاستبعاد:</strong> الخيارات A, B, D تصف تقنيات فحص أخرى (الجس، السماع، الشم)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q5 Analysis - تحليل السؤال الخامس</h3>
+                    <h4>Which of the following is a guideline for effective inspection?</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "guideline", "effective inspection"<br>
+                                <strong>Why correct:</strong> One of the guidelines is to compare bilateral structures for similarities and differences<br>
+                                <strong>Elimination:</strong> Options A, C, and D are incorrect practices for inspection
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "إرشاد"، "الفحص البصري الفعال"<br>
+                                <strong>لماهو صحيح:</strong> أحد الإرشادات هو مقارنة الهياكل الثنائية للتشابه والاختلاف<br>
+                                <strong>الاستبعاد:</strong> الخيارات A, C, D هي ممارسات غير صحيحة للفحص البصري
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q6 Analysis - تحليل السؤال السادس</h3>
+                    <h4>Palpation is used to assess all the following except:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Palpation", "except"<br>
+                                <strong>Why correct:</strong> Color is assessed through inspection, not palpation<br>
+                                <strong>Elimination:</strong> Texture, temperature, and consistency are all assessed through palpation
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "الجس"، "ما عدا"<br>
+                                <strong>لماهو صحيح:</strong> اللون يتم تقييمه من خلال الفحص البصري، وليس الجس<br>
+                                <strong>الاستبعاد:</strong> الملمس، درجة الحرارة، والاتساق يتم تقييمها جميعاً من خلال الجس
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q7 Analysis - تحليل السؤال السابع</h3>
+                    <h4>The dorsal surface (back) of the hand is used during palpation to assess:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "dorsal surface", "assess"<br>
+                                <strong>Why correct:</strong> According to the lecture, the dorsal surface is used to assess temperature<br>
+                                <strong>Elimination:</strong> Texture is assessed with fingertips, vibration with palmar surface, and moisture with fingertips
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "السطح الظهري"، "تقييم"<br>
+                                <strong>لماهو صحيح:</strong> وفقاً للمحاضرة، السطح الظهري يستخدم لتقييم درجة الحرارة<br>
+                                <strong>الاستبعاد:</strong> الملمس يتم تقييمه بأطراف الأصابع، الاهتزاز بسطح الراحة، والرطوبة بأطراف الأصابع
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q8 Analysis - تحليل السؤال الثامن</h3>
+                    <h4>Light palpation is mainly used to:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Light palpation", "mainly used"<br>
+                                <strong>Why correct:</strong> Light palpation is used to feel for pulses, skin texture, and tenderness<br>
+                                <strong>Elimination:</strong> Options A, C, and D require deeper palpation techniques
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "الجس الخفيف"، "يستخدم بشكل أساسي"<br>
+                                <strong>لماهو صحيح:</strong> الجس الخفيف يستخدم للشعور بالنبض، ملمس الجلد، والألم<br>
+                                <strong>الاستبعاد:</strong> الخيارات A, C, D تتطلب تقنيات جس أعمق
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q9 Analysis - تحليل السؤال التاسع</h3>
+                    <h4>Deep palpation involves depressing the skin surface by:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Deep palpation", "depressing the skin surface"<br>
+                                <strong>Why correct:</strong> Deep palpation involves depressing the skin surface between 2.5-5 cm<br>
+                                <strong>Elimination:</strong> Options A and B describe light and moderate palpation, option D is too deep
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "الجس العميق"، "ضغط سطح الجلد"<br>
+                                <strong>لماهو صحيح:</strong> الجس العميق يتضمن ضغط سطح الجلد بين 2.5-5 سم<br>
+                                <strong>الاستبعاد:</strong> الخيارات A و B تصف الجس الخفيف والمعتدل، الخيار D عميق جداً
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q10 Analysis - تحليل السؤال العاشر</h3>
+                    <h4>Bimanual palpation means:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Bimanual palpation", "means"<br>
+                                <strong>Why correct:</strong> Bimanual palpation means using two hands, placing one on each side of the body part<br>
+                                <strong>Elimination:</strong> Options A, C, and D describe other examination techniques
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "الجس ثنائي اليد"، "يعني"<br>
+                                <strong>لماهو صحيح:</strong> الجس ثنائي اليد يعني استخدام يدين، وضع واحدة على كل جانب من جزء الجسم<br>
+                                <strong>الاستبعاد:</strong> الخيارات A, C, D تصف تقنيات فحص أخرى
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q11 Analysis - تحليل السؤال الحادي عشر</h3>
+                    <h4>Percussion is performed by:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Percussion", "performed by"<br>
+                                <strong>Why correct:</strong> Percussion is performed by tapping the skin with short, sharp strokes<br>
+                                <strong>Elimination:</strong> Options A, C, and D describe other examination techniques
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "القرع"، "يتم عن طريق"<br>
+                                <strong>لماهو صحيح:</strong> القرع يتم عن طريق نقر الجلد بضربات قصيرة وحادة<br>
+                                <strong>الاستبعاد:</strong> الخيارات A, C, D تصف تقنيات فحص أخرى
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q12 Analysis - تحليل السؤال الثاني عشر</h3>
+                    <h4>The percussion sound "Tympany" is heard over:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Tympany", "heard over"<br>
+                                <strong>Why correct:</strong> Tympany is heard over air, such as the stomach or bowel<br>
+                                <strong>Elimination:</strong> Liver produces dullness, bone produces flatness, lung with fluid produces dullness
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "الطبلة"، "يُسمع فوق"<br>
+                                <strong>لماهو صحيح:</strong> الطبلة يُسمع فوق الهواء، مثل المعدة أو الأمعاء<br>
+                                <strong>الاستبعاد:</strong> الكبد ينتج صمت، العظام تنتج انبساط، الرئة مع سوائل تنتج صمت
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q13 Analysis - تحليل السؤال الثالث عشر</h3>
+                    <h4>Resonance is normally heard over:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "Resonance", "normally heard over"<br>
+                                <strong>Why correct:</strong> Resonance is normally heard over the lungs<br>
+                                <strong>Elimination:</strong> Bone produces flatness, liver produces dullness, muscle produces flatness
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "الرنين"، "يُسمع بشكل طبيعي فوق"<br>
+                                <strong>لماهو صحيح:</strong> الرنين يُسمع بشكل طبيعي فوق الرئتين<br>
+                                <strong>الاستبعاد:</strong> العظام تنتج انبساط، الكبد ينتج صمت، العضلات تنتج انبساط
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q14 Analysis - تحليل السؤال الرابع عشر</h3>
+                    <h4>The bell of the stethoscope is used to listen to:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "bell", "stethoscope", "listen to"<br>
+                                <strong>Why correct:</strong> The bell is used to listen to low-pitched sounds such as murmurs and bruits<br>
+                                <strong>Elimination:</strong> The diaphragm is used for high-pitched sounds, breath sounds, and bowel sounds
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "جرس"، "السماعة الطبية"، "الاستماع إلى"<br>
+                                <strong>لماهو صحيح:</strong> الجرس يستخدم للاستماع إلى الأصوات ذات النغمة المنخفضة مثل الهمهمات والهمهمات الوعائية<br>
+                                <strong>الاستبعاد:</strong> الغشاء يستخدم للأصوات ذات النغمة العالية، أصوات التنفس، وأصوات الأمعاء
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Q15 Analysis - تحليل السؤال الخامس عشر</h3>
+                    <h4>A strong ammonia odor in urine during assessment may indicate:</h4>
+                    
+                    <div class="trick-explanation">
+                        <h4>🔍 How to solve?</h4>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                <strong>Keywords:</strong> "ammonia odor", "urine", "indicate"<br>
+                                <strong>Why correct:</strong> Ammonia odor from urine may indicate a urinary tract infection<br>
+                                <strong>Elimination:</strong> Liver disease, diabetes mellitus, and poor dental hygiene are associated with different odors
+                            </div>
+                            <div class="arabic-side">
+                                <strong>الكلمات المفتاحية:</strong> "رائحة الأمونيا"، "البول"، "تشير إلى"<br>
+                                <strong>لماهو صحيح:</strong> رائحة الأمونيا من البول قد تشير إلى عدوى المسالك البولية<br>
+                                <strong>الاستبعاد:</strong> أمراض الكبد، مرض السكري، ونقص نظافة الأسنان مرتبطة بروائح مختلفة
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="keywords-master-box">
+                    <h2>🔑 Answer Keys - مفاتيح الحل</h2>
+                    <p style="text-align:center; font-size:1.3rem; margin-bottom:2rem;">
+                        <strong>شفت الكلمة دي؟ = الإجابة كذا</strong>
+                    </p>
+                    
+                    <div class="keyword-grid">
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Definition / Best definition</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Look for the most complete definition</div>
+                                <div class="arabic-side">→ الإجابة = ابحث عن التعريف الأكثر اكتمالاً</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Not / Except</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = The option that doesn't belong</div>
+                                <div class="arabic-side">→ الإجابة = الخيار الذي لا ينتمي للمجموعة</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Inspection</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Visual observation</div>
+                                <div class="arabic-side">→ الإجابة = الملاحظة البصرية</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Palpation</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Touch/Feeling</div>
+                                <div class="arabic-side">→ الإجابة = اللمس/الشعور</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Percussion</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Tapping</div>
+                                <div class="arabic-side">→ الإجابة = النقر</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Auscultation</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Listening with stethoscope</div>
+                                <div class="arabic-side">→ الإجابة = الاستماع بالسماعة الطبية</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Tympany</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Stomach/Bowel (air)</div>
+                                <div class="arabic-side">→ الإجابة = المعدة/الأمعاء (هواء)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Resonance</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Normal lung</div>
+                                <div class="arabic-side">→ الإجابة = الرئة الطبيعية</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Dullness</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Liver/Spleen</div>
+                                <div class="arabic-side">→ الإجابة = الكبد/الطحال</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Flatness</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Muscle/Bone</div>
+                                <div class="arabic-side">→ الإجابة = العضلات/العظام</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Bell of stethoscope</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Low-pitched sounds</div>
+                                <div class="arabic-side">→ الإجابة = الأصوات ذات النغمة المنخفضة</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Diaphragm of stethoscope</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = High-pitched sounds</div>
+                                <div class="arabic-side">→ الإجابة = الأصوات ذات النغمة العالية</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Ammonia odor</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Urinary tract infection</div>
+                                <div class="arabic-side">→ الإجابة = عدوى المسالك البولية</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Alcohol odor</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Ingestion of alcohol</div>
+                                <div class="arabic-side">→ الإجابة = تناول الكحول</div>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-item">
+                            <div class="keyword-header">
+                                <span class="keyword-icon">🔴</span>
+                                <h4>Halitosis</h4>
+                            </div>
+                            <div class="dual-text-row">
+                                <div class="english-side">→ Answer = Poor dental hygiene</div>
+                                <div class="arabic-side">→ الإجابة = نقص نظافة الأسنان</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 5: Final Review -->
+        <div id="page5" class="page">
+            <h1>📝 Final Review - المراجعة النهائية</h1>
+            
+            <div class="concept-slide numbered-section">
+                <div class="numbered-item">
+                    <h3>Physical Examination Overview (نظرة عامة على الفحص الجسدي)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            Physical examination is a systematic approach of collecting objective data about health status. It employs through detailed evaluation of patient's all body structures, organs, or systems by use of examiner's senses (visual, tactile, olfactory and auditory).
+                        </div>
+                        <div class="arabic-side">
+                            الفحص الجسدي هو منهجية منظمة لجمع البيانات الموضوعية عن الحالة الصحية. يتم من خلال التقييم المفصل لجميع هياكل وأعضاء وأجهزة جسم المريض باستخدام حواف الفاحص (البصرية، اللمسية، الشمية والسمعية).
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Components of Physical Examination (مكونات الفحص الجسدي)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. General Survey<br>
+                            2. Vital Signs Measurement<br>
+                            3. Height and Weight Measurement<br>
+                            4. Body System Examination
+                        </div>
+                        <div class="arabic-side">
+                            1. المسح العام<br>
+                            2. قياس العلامات الحيوية<br>
+                            3. قياس الطول والوزن<br>
+                            4. فحص أجهزة الجسم
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Techniques of Physical Examination (تقنيات الفحص الجسدي)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Inspection - Systematic visual observation<br>
+                            2. Palpation - Using touch to assess characteristics<br>
+                            3. Percussion - Tapping to assess underlying structures<br>
+                            4. Auscultation - Listening with a stethoscope<br>
+                            5. Olfaction - Using sense of smell
+                        </div>
+                        <div class="arabic-side">
+                            1. الفحص البصري - الملاحظة البصرية المنهجية<br>
+                            2. الجس - استخدام اللمس لتقييم الخصائص<br>
+                            3. القرع - النقر لتقييم الهياكل الأساسية<br>
+                            4. السماع - الاستماع بالسماعة الطبية<br>
+                            5. الشم - استخدام حاسة الشم
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Types of Palpation (أنواع الجس)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Light palpation - For pulses, skin texture, tenderness<br>
+                            2. Moderate palpation - 1-2 cm depression for organs<br>
+                            3. Deep palpation - 2.5-5 cm depression for deep structures<br>
+                            4. Bimanual palpation - Using two hands
+                        </div>
+                        <div class="arabic-side">
+                            1. الجس الخفيف - للنبض، ملمس الجلد، الألم<br>
+                            2. الجس المعتدل - ضغط 1-2 سم للأعضاء<br>
+                            3. الجس العميق - ضغط 2.5-5 سم للهياكل العميقة<br>
+                            4. الجس ثنائي اليد - استخدام يدين
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Percussion Sounds (أصوات القرع)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Tympany - Over air (stomach, bowel)<br>
+                            2. Resonance - Over normal lung<br>
+                            3. Hyper-resonance - Over mostly air (emphysema)<br>
+                            4. Dullness - Over solid tissue (liver, spleen)<br>
+                            5. Flatness - Over very dense tissue (muscle, bone)
+                        </div>
+                        <div class="arabic-side">
+                            1. الطبلة - فوق الهواء (المعدة، الأمعاء)<br>
+                            2. الرنين - فوق الرئة الطبيعية<br>
+                            3. الرنين الزائد - فوق معظم الهواء (انتفاخ الرئة)<br>
+                            4. الصمت - فوق الأنسجة الصلبة (الكبد، الطحال)<br>
+                            5. الانبساط - فوق الأنسجة الكثيفة جداً (العضلات، العظام)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Stethoscope Use (استخدام السماعة الطبية)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Diaphragm - For high-pitched sounds (heart, breath, bowel)<br>
+                            2. Bell - For low-pitched sounds (murmurs, bruits)
+                        </div>
+                        <div class="arabic-side">
+                            1. الغشاء - للأصوات ذات النغمة العالية (القلب، التنفس، الأمعاء)<br>
+                            2. الجرس - للأصوات ذات النغمة المنخفضة (الهمهمات، الهمهمات الوعائية)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Abnormal Odors (الروائح غير الطبيعية)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Alcohol odor - Ingestion of alcohol<br>
+                            2. Ammonia odor - Urinary tract infection<br>
+                            3. Bad odor from skin - Poor hygiene<br>
+                            4. Halitosis - Poor dental hygiene
+                        </div>
+                        <div class="arabic-side">
+                            1. رائحة الكحول - تناول الكحول<br>
+                            2. رائحة الأمونيا - عدوى المسالك البولية<br>
+                            3. رائحة كريهة من الجلد - نقص النظافة<br>
+                            4. رائحة الفم الكريهة - نقص نظافة الأسنان
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Environmental Preparation (تحضير البيئة)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Prepare equipment needed (clean, well-functioning)<br>
+                            2. Room should be quiet, warm, and well-lit<br>
+                            3. Maintain privacy
+                        </div>
+                        <div class="arabic-side">
+                            1. تحضير المعدات اللازمة (نظيفة، عاملة)<br>
+                            2. يجب أن تكون الغرفة هادئة، دافئة، ومضاءة جيداً<br>
+                            3. الحفاظ على الخصوصية
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Guidelines for Effective Inspection (إرشادات للفحص البصري الفعال)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Be systematic<br>
+                            2. Fully expose the area to be inspected<br>
+                            3. Use good light, preferably natural light<br>
+                            4. Maintain comfortable room temperature<br>
+                            5. Observe color, shape, size, symmetry, position, and movement<br>
+                            6. Compare bilateral structures
+                        </div>
+                        <div class="arabic-side">
+                            1. كن منهجياً<br>
+                            2. اكشف المنطقة المراد فحصها بالكامل<br>
+                            3. استخدم إضاءة جيدة، ويفضل الضوء الطبيعي<br>
+                            4. حافظ على درجة حرارة غرفة مريحة<br>
+                            5. لاحظ اللون، الشكل، الحجم، التماثل، الموضع، والحركة<br>
+                            6. قارن الهياكل الثنائية
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h3>Principles for Accurate Palpation (مبادئ الجس الدقيق)</h3>
+                    <div class="dual-text-row">
+                        <div class="english-side">
+                            1. Examiner finger nails should be short<br>
+                            2. Start with light then deep palpation<br>
+                            3. Tender area are palpated last<br>
+                            4. Client must relax during palpation<br>
+                            5. Tell client to take slow deep breath to enhance muscle relaxation
+                        </div>
+                        <div class="arabic-side">
+                            1. يجب أن تكون أظافر الفاحص قصيرة<br>
+                            2. ابدأ بالجس الخفيف ثم العميق<br>
+                            3. المناطق الحساسة تُفحص في النهاية<br>
+                            4. يجب أن يكون المريض مسترخياً أثناء الجس<br>
+                            5. أخبر المريض بأخذ أنفاس عميقة وبطيئة
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 6: Key Comparisons -->
+        <div id="page6" class="page">
+            <h1>🔄 Key Comparisons - أهم المقارنات</h1>
+            
+            <div class="comparison-container numbered-section">
+                <div class="numbered-item">
+                    <h2>Comparison 1</h2>
+                    <h3>Inspection vs Palpation</h3>
+                    
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="comparison-title-en">Inspection</div>
+                            <div class="comparison-vs">VS</div>
+                            <div class="comparison-title-ar">Palpation</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Definition:</h4>
+                                <p>Systematic visual observation</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Definition:</h4>
+                                <p>Using touch to assess characteristics</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>التعريف:</h4>
+                                <p>الملاحظة البصرية المنهجية</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>التعريف:</h4>
+                                <p>استخدام اللمس لتقييم الخصائص</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Assesses:</h4>
+                                <p>Color, size, shape, symmetry, position, movement</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Assesses:</h4>
+                                <p>Texture, temperature, moisture, consistency, tenderness</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>يقيم:</h4>
+                                <p>اللون، الحجم، الشكل، التماثل، الموضع، الحركة</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>يقيم:</h4>
+                                <p>الملمس، درجة الحرارة، الرطوبة، الاتساق، الألم</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h2>Comparison 2</h2>
+                    <h3>Percussion Sounds</h3>
+                    
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="comparison-title-en">Tympany</div>
+                            <div class="comparison-vs">VS</div>
+                            <div class="comparison-title-ar">Resonance</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Sound:</h4>
+                                <p>Musical or drum-like</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Sound:</h4>
+                                <p>Hollow sound</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>الصوت:</h4>
+                                <p>موسيقي أو شبيه بالطبول</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>الصوت:</h4>
+                                <p>صوت جوف</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Heard over:</h4>
+                                <p>Air (stomach, bowel)</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Heard over:</h4>
+                                <p>Normal lung</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>يُسمع فوق:</h4>
+                                <p>الهواء (المعدة، الأمعاء)</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>يُسمع فوق:</h4>
+                                <p>الرئة الطبيعية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h2>Comparison 3</h2>
+                    <h3>Types of Palpation</h3>
+                    
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="comparison-title-en">Light Palpation</div>
+                            <div class="comparison-vs">VS</div>
+                            <div class="comparison-title-ar">Deep Palpation</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Depth:</h4>
+                                <p>Less than 1 cm</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Depth:</h4>
+                                <p>2.5-5 cm</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>العمق:</h4>
+                                <p>أقل من 1 سم</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>العمق:</h4>
+                                <p>2.5-5 سم</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Used for:</h4>
+                                <p>Pulses, skin texture, tenderness</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Used for:</h4>
+                                <p>Abdominal organs, deep structures</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>يستخدم لـ:</h4>
+                                <p>النبض، ملمس الجلد، الألم</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>يستخدم لـ:</h4>
+                                <p>أعضاء البطن، الهياكل العميقة</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h2>Comparison 4</h2>
+                    <h3>Stethoscope Parts</h3>
+                    
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="comparison-title-en">Diaphragm</div>
+                            <div class="comparison-vs">VS</div>
+                            <div class="comparison-title-ar">Bell</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Used for:</h4>
+                                <p>High-pitched sounds</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Used for:</h4>
+                                <p>Low-pitched sounds</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>يستخدم لـ:</h4>
+                                <p>الأصوات ذات النغمة العالية</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>يستخدم لـ:</h4>
+                                <p>الأصوات ذات النغمة المنخفضة</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Examples:</h4>
+                                <p>Normal heart sounds, breath sounds, bowel sounds</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Examples:</h4>
+                                <p>Abnormal heart sounds, murmurs, bruits</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>أمثلة:</h4>
+                                <p>أصوات القلب الطبيعية، أصوات التنفس، أصوات الأمعاء</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>أمثلة:</h4>
+                                <p>أصوات القلب غير الطبيعية، الهمهمات، الهمهمات الوعائية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <h2>Comparison 5</h2>
+                    <h3>Abnormal Odors</h3>
+                    
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="comparison-title-en">Alcohol Odor</div>
+                            <div class="comparison-vs">VS</div>
+                            <div class="comparison-title-ar">Ammonia Odor</div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Source:</h4>
+                                <p>Oral cavity</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Source:</h4>
+                                <p>Urine</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>المصدر:</h4>
+                                <p>تجويف الفم</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>المصدر:</h4>
+                                <p>البول</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row">
+                            <div class="comparison-cell-left">
+                                <h4>Indicates:</h4>
+                                <p>Ingestion of alcohol</p>
+                            </div>
+                            <div class="comparison-cell-right">
+                                <h4>Indicates:</h4>
+                                <p>Urinary tract infection</p>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-row-ar">
+                            <div class="comparison-cell-left-ar">
+                                <h4>يشير إلى:</h4>
+                                <p>تناول الكحول</p>
+                            </div>
+                            <div class="comparison-cell-right-ar">
+                                <h4>يشير إلى:</h4>
+                                <p>عدوى المسالك البولية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 7: Audio Dictionary -->
+        <div id="page7" class="page">
+            <h1>🔊 Audio Dictionary - القاموس الصوتي</h1>
+            
+            <div class="numbered-section">
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Physical Examination</h3>
+                        <h4>الفحص الجسدي</h4>
+                        <button class="speak-btn" onclick="speakText('Physical Examination')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Systematic approach of collecting objective data about health status
+                            </div>
+                            <div class="arabic-side">
+                                منهجية منظمة لجمع البيانات الموضوعية عن الحالة الصحية
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Inspection</h3>
+                        <h4>الفحص البصري</h4>
+                        <button class="speak-btn" onclick="speakText('Inspection')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Systematic and thorough observation of the client and specific areas of the body
+                            </div>
+                            <div class="arabic-side">
+                                الملاحظة المنهجية والشاملة للمريض ومناطق محددة من الجسم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Palpation</h3>
+                        <h4>الجس</h4>
+                        <button class="speak-btn" onclick="speakText('Palpation')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Assessing characteristics of an organ or body part by touching and feeling it
+                            </div>
+                            <div class="arabic-side">
+                                تقييم خصائص عضو أو جزء من الجسم عن طريق لمسه وشعوره
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Percussion</h3>
+                        <h4>القرع</h4>
+                        <button class="speak-btn" onclick="speakText('Percussion')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Tapping the person's skin with short sharp strokes to assess underlying structures
+                            </div>
+                            <div class="arabic-side">
+                                النقر على جلد الشخص بضربات قصيرة وحادة لتقييم الهياكل الأساسية
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Auscultation</h3>
+                        <h4>السماع</h4>
+                        <button class="speak-btn" onclick="speakText('Auscultation')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Listening with a stethoscope to sounds produced by organs
+                            </div>
+                            <div class="arabic-side">
+                                الاستماع بالسماعة الطبية إلى الأصوات التي تنتجها الأعضاء
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Olfaction</h3>
+                        <h4>الشم</h4>
+                        <button class="speak-btn" onclick="speakText('Olfaction')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Using sense of smell to detect abnormalities in body system
+                            </div>
+                            <div class="arabic-side">
+                                استخدام حاسة الشم للكشف عن التشوهات في نظام الجسم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Tympany</h3>
+                        <h4>الطبلة</h4>
+                        <button class="speak-btn" onclick="speakText('Tympany')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Musical or drum-like sound heard over air (stomach, bowel)
+                            </div>
+                            <div class="arabic-side">
+                                صوت موسيقي أو شبيه بالطبول يُسمع فوق الهواء (المعدة، الأمعاء)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Resonance</h3>
+                        <h4>الرنين</h4>
+                        <button class="speak-btn" onclick="speakText('Resonance')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Hollow sound heard over normal lung
+                            </div>
+                            <div class="arabic-side">
+                                صوت جوف يُسمع فوق الرئة الطبيعية
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Hyper-resonance</h3>
+                        <h4>الرنين الزائد</h4>
+                        <button class="speak-btn" onclick="speakText('Hyper-resonance')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Booming sound heard over mostly air (emphysema)
+                            </div>
+                            <div class="arabic-side">
+                                صوت مدوي يُسمع فوق معظم الهواء (انتفاخ الرئة)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Dullness</h3>
+                        <h4>الصمت</h4>
+                        <button class="speak-btn" onclick="speakText('Dullness')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Thud sound produced by dense structures (liver, spleen)
+                            </div>
+                            <div class="arabic-side">
+                                صوت طردي ينتجه هياكل كثيفة (الكبد، الطحال)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Flatness</h3>
+                        <h4>الانبساط</h4>
+                        <button class="speak-btn" onclick="speakText('Flatness')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Extremely dull sound produced by very dense structures (muscle, bone)
+                            </div>
+                            <div class="arabic-side">
+                                صوت صامت جداً ينتجه هياكل كثيفة جداً (العضلات، العظام)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Stethoscope</h3>
+                        <h4>السماعة الطبية</h4>
+                        <button class="speak-btn" onclick="speakText('Stethoscope')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Medical device for listening to internal sounds of a body
+                            </div>
+                            <div class="arabic-side">
+                                جهاز طبي للاستماع إلى الأصوات الداخلية للجسم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Diaphragm</h3>
+                        <h4>الغشاء</h4>
+                        <button class="speak-btn" onclick="speakText('Diaphragm')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Part of stethoscope used for high-pitched sounds
+                            </div>
+                            <div class="arabic-side">
+                                جزء من السماعة الطبية يستخدم للأصوات ذات النغمة العالية
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Bell</h3>
+                        <h4>الجرس</h4>
+                        <button class="speak-btn" onclick="speakText('Bell')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Part of stethoscope used for low-pitched sounds
+                            </div>
+                            <div class="arabic-side">
+                                جزء من السماعة الطبية يستخدم للأصوات ذات النغمة المنخفضة
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Bimanual</h3>
+                        <h4>ثنائي اليد</h4>
+                        <button class="speak-btn" onclick="speakText('Bimanual')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Using two hands, placing one on each side of the body part
+                            </div>
+                            <div class="arabic-side">
+                                استخدام يدين، وضع واحدة على كل جانب من جزء الجسم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Halitosis</h3>
+                        <h4>رائحة الفم الكريهة</h4>
+                        <button class="speak-btn" onclick="speakText('Halitosis')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Bad breath from oral cavity indicating poor dental hygiene
+                            </div>
+                            <div class="arabic-side">
+                                رائحة الفم الكريهة من تجويف الفم تشير إلى نقص نظافة الأسنان
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>General Survey</h3>
+                        <h4>المسح العام</h4>
+                        <button class="speak-btn" onclick="speakText('General Survey')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Overall observation of patient's physical appearance and behavior
+                            </div>
+                            <div class="arabic-side">
+                                الملاحظة العامة للمظهر الجسدي وسلوك المريض
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Vital Signs</h3>
+                        <h4>العلامات الحيوية</h4>
+                        <button class="speak-btn" onclick="speakText('Vital Signs')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Measurements of body's basic functions (temperature, pulse, respiration, blood pressure)
+                            </div>
+                            <div class="arabic-side">
+                                قياسات الوظائف الأساسية للجسم (درجة الحرارة، النبض، التنفس، ضغط الدم)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Crepitus</h3>
+                        <h4>فرقعة المفاصل</h4>
+                        <button class="speak-btn" onclick="speakText('Crepitus')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Crackling or grating sound or sensation under the skin
+                            </div>
+                            <div class="arabic-side">
+                                صوت أو إحساس بالتكسر أو الاحتكاك تحت الجلد
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="glossary-item">
+                        <h3>Bruits</h3>
+                        <h4>الهمهمات الوعائية</h4>
+                        <button class="speak-btn" onclick="speakText('Bruits')">🔊 Pronounce</button>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Abnormal sounds heard over blood vessels
+                            </div>
+                            <div class="arabic-side">
+                                أصوات غير طبيعية تُسمع فوق الأوعية الدموية
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 8: Important Numbers -->
+        <div id="page8" class="page">
+            <h1>🔢 Important Numbers - الأرقام المهمة</h1>
+            
+            <div class="numbered-section">
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Number of Physical Examination Techniques</h3>
+                        <h4>عدد تقنيات الفحص الجسدي</h4>
+                        <div class="number-highlight">5</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Inspection, Palpation, Percussion, Auscultation, Olfaction
+                            </div>
+                            <div class="arabic-side">
+                                الفحص البصري، الجس، القرع، السماع، الشم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Number of Components of Physical Examination</h3>
+                        <h4>عدد مكونات الفحص الجسدي</h4>
+                        <div class="number-highlight">4</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                General Survey, Vital Signs Measurement, Height and Weight Measurement, Body System Examination
+                            </div>
+                            <div class="arabic-side">
+                                المسح العام، قياس العلامات الحيوية، قياس الطول والوزن، فحص أجهزة الجسم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Number of Senses Used in Physical Examination</h3>
+                        <h4>عدد الحواس المستخدمة في الفحص الجسدي</h4>
+                        <div class="number-highlight">4</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Visual (sight), Tactile (touch), Olfactory (smell), Auditory (hearing)
+                            </div>
+                            <div class="arabic-side">
+                                البصرية (النظر)، اللمسية (اللمس)، الشمية (الشم)، السمعية (السماع)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Depth of Light Palpation</h3>
+                        <h4>عمق الجس الخفيف</h4>
+                        <div class="number-highlight">< 1 cm</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Used to feel for pulses, skin texture, and tenderness
+                            </div>
+                            <div class="arabic-side">
+                                يستخدم للشعور بالنبض، ملمس الجلد، والألم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Depth of Moderate Palpation</h3>
+                        <h4>عمق الجس المعتدل</h4>
+                        <div class="number-highlight">1-2 cm</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Used to palpate body organs and masses
+                            </div>
+                            <div class="arabic-side">
+                                يستخدم لجس أعضاء الجسم والكتل
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Depth of Deep Palpation</h3>
+                        <h4>عمق الجس العميق</h4>
+                        <div class="number-highlight">2.5-5 cm</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Used to identify abdominal organs or structures covered by thick muscles
+                            </div>
+                            <div class="arabic-side">
+                                يستخدم لتحديد أعضاء البطن أو الهياكل المغطاة بالعضلات السميكة
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Number of Percussion Sounds</h3>
+                        <h4>عدد أصوات القرع</h4>
+                        <div class="number-highlight">5</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Tympany, Resonance, Hyper-resonance, Dullness, Flatness
+                            </div>
+                            <div class="arabic-side">
+                                الطبلة، الرنين، الرنين الزائد، الصمت، الانبساط
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Number of Types of Palpation</h3>
+                        <h4>عدد أنواع الجس</h4>
+                        <div class="number-highlight">4</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Light palpation, Moderate palpation, Deep palpation, Bimanual palpation
+                            </div>
+                            <div class="arabic-side">
+                                الجس الخفيف، الجس المعتدل، الجس العميق، الجس ثنائي اليد
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Number of Parts of Stethoscope</h3>
+                        <h4>عدد أجزاء السماعة الطبية</h4>
+                        <div class="number-highlight">2</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Diaphragm (for high-pitched sounds), Bell (for low-pitched sounds)
+                            </div>
+                            <div class="arabic-side">
+                                الغشاء (للأصوات ذات النغمة العالية)، الجرس (للأصوات ذات النغمة المنخفضة)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="numbered-item">
+                    <div class="number-card">
+                        <h3>Number of Abnormal Odors Mentioned</h3>
+                        <h4>عدد الروائح غير الطبيعية المذكورة</h4>
+                        <div class="number-highlight">4</div>
+                        <div class="dual-text-row">
+                            <div class="english-side">
+                                Alcohol odor, Ammonia odor, Bad odor from skin, Halitosis
+                            </div>
+                            <div class="arabic-side">
+                                رائحة الكحول، رائحة الأمونيا، رائحة كريهة من الجلد، رائحة الفم الكريهة
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3 style="font-size:1.8rem; margin-bottom:1.5rem;">📞 تواصل معنا - Contact Us</h3>
+            
+            <div class="contact-links">
+                <a href="https://wa.me/201121833902" target="_blank" class="contact-item">
+                    <span class="contact-icon">📱</span>
+                    <span class="contact-text">WhatsApp - واتساب</span>
+                    <span class="contact-number">01121833902</span>
+                </a>
+                
+                <a href="tel:+201012575443" class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <span class="contact-text">Call - اتصال</span>
+                    <span class="contact-number">01012575443</span>
+                </a>
+                
+                <a href="https://www.facebook.com/share/1CjgYdbne7/" target="_blank" class="contact-item">
+                    <span class="contact-icon">👤</span>
+                    <span class="contact-text">Facebook - فيسبوك</span>
+                    <span class="contact-number">تابعنا</span>
+                </a>
+            </div>
+            
+            <div class="footer-dedication">
+                <div class="dedication-icon">🤲</div>
+                <h3>صدقة جارية</h3>
+                <p>
+                    اللهم اجعل هذا العمل في ميزان حسناتي<br>
+                    وصدقة جارية لعمتي رحمة الله عليها<br>
+                   ولجميع المسلمين والمسلمات<br>
+                    الأحياء منهم والأموات<br><br>
+                    
+                    <strong>اللهم اغفر لهم وارحمهم وعافهم واعف عنهم<br>
+                    وأكرم نزلهم ووسع مدخلهم<br>
+                    واغسلهم بالماء والثلج والبرد<br>
+                    ونقهم من الخطايا كما ينقى الثوب الأبيض من الدنس<br>
+                    وأبدلهم داراً خيراً من دارهم وأهلاً خيراً من أهلهم<br>
+                    وأدخلهم الجنة وأعذهم من عذاب القبر ومن عذاب النار<br>
+                    واجعل قبورهم روضة من رياض الجنة</strong><br><br>
+                    
+                    آمين يا رب العالمين 🤲
+                </p>
+            </div>
+            
+            <div class="footer-developer">
+                <p style="font-size:1.3rem; font-weight:700; margin-top:3rem;">
+                    Developed with ❤️ by <span style="background: linear-gradient(135deg, #FFD700, #FF6B6B); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Mohamed Salah</span>
+                </p>
+                <p style="font-size:1.1rem; margin-top:0.5rem; opacity:0.9;">
+                    © 2025 - All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Flashcards Data
+        const flashcardsData = [
+            {
+                front: "Physical Examination",
+                back: {
+                    term: "Physical Examination",
+                    translation: "الفحص الجسدي",
+                    english: "Systematic approach of collecting objective data about health status through detailed evaluation of patient's body structures, organs, or systems by use of examiner's senses",
+                    arabic: "منهجية منظمة لجمع البيانات الموضوعية عن الحالة الصحية من خلال التقييم المفصل لهياكل وأعضاء وأجهزة جسم المريض باستخدام حواف الفاحص"
+                }
+            },
+            {
+                front: "Inspection",
+                back: {
+                    term: "Inspection",
+                    translation: "الفحص البصري",
+                    english: "Systematic and thorough observation of the client and specific areas of the body",
+                    arabic: "الملاحظة المنهجية والشاملة للمريض ومناطق محددة من الجسم"
+                }
+            },
+            {
+                front: "Palpation",
+                back: {
+                    term: "Palpation",
+                    translation: "الجس",
+                    english: "Assessing characteristics of an organ or body part by touching and feeling it with hands or fingertips",
+                    arabic: "تقييم خصائص عضو أو جزء من الجسم عن طريق لمسه وشعوره باليدين أو أطراف الأصابع"
+                }
+            },
+            {
+                front: "Percussion",
+                back: {
+                    term: "Percussion",
+                    translation: "القرع",
+                    english: "Tapping the person's skin with short sharp strokes to assess underlying structures",
+                    arabic: "النقر على جلد الشخص بضربات قصيرة وحادة لتقييم الهياكل الأساسية"
+                }
+            },
+            {
+                front: "Auscultation",
+                back: {
+                    term: "Auscultation",
+                    translation: "السماع",
+                    english: "Listening with a stethoscope to sounds produced by organs such as heart, lungs, blood vessels, and intestines",
+                    arabic: "الاستماع بالسماعة الطبية إلى الأصوات التي تنتجها أعضاء مثل القلب، الرئتين، الأوعية الدموية، والأمعاء"
+                }
+            },
+            {
+                front: "Olfaction",
+                back: {
+                    term: "Olfaction",
+                    translation: "الشم",
+                    english: "Using sense of smell to detect abnormalities in body system",
+                    arabic: "استخدام حاسة الشم للكشف عن التشوهات في نظام الجسم"
+                }
+            },
+            {
+                front: "Light Palpation",
+                back: {
+                    term: "Light Palpation",
+                    translation: "الجس الخفيف",
+                    english: "To feel for pulses, check muscle tone, assess for tenderness, surface skin texture, temperature and moisture",
+                    arabic: "للشعور بالنبض، فحص نغمة العضلات، تقييم الألم، ملمس سطح الجلد، درجة الحرارة والرطوبة"
+                }
+            },
+            {
+                front: "Moderate Palpation",
+                back: {
+                    term: "Moderate Palpation",
+                    translation: "الجس المعتدل",
+                    english: "Depress the skin surface from 1-2 cm to palpate body organs and masses",
+                    arabic: "ضغط سطح الجلد من 1-2 سم لجس أعضاء الجسم والكتل"
+                }
+            },
+            {
+                front: "Deep Palpation",
+                back: {
+                    term: "Deep Palpation",
+                    translation: "الجس العميق",
+                    english: "Surface depression between 2.5-5 cm to identify abdominal organs or structures covered by thick muscles",
+                    arabic: "انخفاض السطح بين 2.5-5 سم لتحديد أعضاء البطن أو الهياكل المغطاة بالعضلات السميكة"
+                }
+            },
+            {
+                front: "Bimanual Palpation",
+                back: {
+                    term: "Bimanual Palpation",
+                    translation: "الجس ثنائي اليد",
+                    english: "Using two hands, placing one on each side of the body part",
+                    arabic: "استخدام يدين، وضع واحدة على كل جانب من جزء الجسم"
+                }
+            },
+            {
+                front: "Tympany",
+                back: {
+                    term: "Tympany",
+                    translation: "الطبلة",
+                    english: "Musical or drum-like sound heard over air (stomach, bowel)",
+                    arabic: "صوت موسيقي أو شبيه بالطبول يُسمع فوق الهواء (المعدة، الأمعاء)"
+                }
+            },
+            {
+                front: "Resonance",
+                back: {
+                    term: "Resonance",
+                    translation: "الرنين",
+                    english: "Hollow sound heard over normal lung",
+                    arabic: "صوت جوف يُسمع فوق الرئة الطبيعية"
+                }
+            },
+            {
+                front: "Hyper-resonance",
+                back: {
+                    term: "Hyper-resonance",
+                    translation: "الرنين الزائد",
+                    english: "Booming sound heard over mostly air (emphysema)",
+                    arabic: "صوت مدوي يُسمع فوق معظم الهواء (انتفاخ الرئة)"
+                }
+            },
+            {
+                front: "Dullness",
+                back: {
+                    term: "Dullness",
+                    translation: "الصمت",
+                    english: "Thud sound produced by dense structures such as liver, spleen, or full bladder",
+                    arabic: "صوت طردي ينتجه هياكل كثيفة مثل الكبد، الطحال، أو المثانة الممتلئة"
+                }
+            },
+            {
+                front: "Flatness",
+                back: {
+                    term: "Flatness",
+                    translation: "الانبساط",
+                    english: "Extremely dull sound produced by very dense structures such as muscle or bone",
+                    arabic: "صوت صامت جداً ينتجه هياكل كثيفة جداً مثل العضلات أو العظام"
+                }
+            },
+            {
+                front: "Diaphragm of Stethoscope",
+                back: {
+                    term: "Diaphragm of Stethoscope",
+                    translation: "غشاء السماعة الطبية",
+                    english: "Used to listen to high-pitched sounds such as normal heart sounds, breath, bowel sounds",
+                    arabic: "يستخدم للاستماع إلى الأصوات ذات النغمة العالية مثل أصوات القلب الطبيعية، التنفس، أصوات الأمعاء"
+                }
+            },
+            {
+                front: "Bell of Stethoscope",
+                back: {
+                    term: "Bell of Stethoscope",
+                    translation: "جرس السماعة الطبية",
+                    english: "Used to listen for low-pitched sounds such as abnormal heart sounds and bruits",
+                    arabic: "يستخدم للاستماع إلى الأصوات ذات النغمة المنخفضة مثل أصوات القلب غير الطبيعية والهمهمات الوعائية"
+                }
+            },
+            {
+                front: "Alcohol Odor",
+                back: {
+                    term: "Alcohol Odor",
+                    translation: "رائحة الكحول",
+                    english: "Odor from oral mouth indicating ingestion of alcohol",
+                    arabic: "رائحة من الفم تشير إلى تناول الكحول"
+                }
+            },
+            {
+                front: "Ammonia Odor",
+                back: {
+                    term: "Ammonia Odor",
+                    translation: "رائحة الأمونيا",
+                    english: "Odor from urine indicating urinary tract infection",
+                    arabic: "رائحة من البول تشير إلى عدوى المسالك البولية"
+                }
+            },
+            {
+                front: "Halitosis",
+                back: {
+                    term: "Halitosis",
+                    translation: "رائحة الفم الكريهة",
+                    english: "Bad odor from oral cavity indicating poor dental hygiene",
+                    arabic: "رائحة كريهة من تجويف الفم تشير إلى نقص نظافة الأسنان"
+                }
+            },
+            {
+                front: "General Survey",
+                back: {
+                    term: "General Survey",
+                    translation: "المسح العام",
+                    english: "Overall observation of patient's physical appearance and behavior",
+                    arabic: "الملاحظة العامة للمظهر الجسدي وسلوك المريض"
+                }
+            },
+            {
+                front: "Vital Signs",
+                back: {
+                    term: "Vital Signs",
+                    translation: "العلامات الحيوية",
+                    english: "Measurements of body's basic functions (temperature, pulse, respiration, blood pressure)",
+                    arabic: "قياسات الوظائف الأساسية للجسم (درجة الحرارة، النبض، التنفس، ضغط الدم)"
+                }
+            },
+            {
+                front: "Crepitus",
+                back: {
+                    term: "Crepitus",
+                    translation: "فرقعة المفاصل",
+                    english: "Crackling or grating sound or sensation under the skin",
+                    arabic: "صوت أو إحساس بالتكسر أو الاحتكاك تحت الجلد"
+                }
+            },
+            {
+                front: "Bruits",
+                back: {
+                    term: "Bruits",
+                    translation: "الهمهمات الوعائية",
+                    english: "Abnormal sounds heard over blood vessels",
+                    arabic: "أصوات غير طبيعية تُسمع فوق الأوعية الدموية"
+                }
+            },
+            {
+                front: "Fine Palpation",
+                back: {
+                    term: "Fine Palpation",
+                    translation: "الجس الدقيق",
+                    english: "Used to assess pulse, texture, moisture, masses, size, consistency, shape, crepitus",
+                    arabic: "يستخدم لتقييم النبض، الملمس، الرطوبة، الكتل، الحجم، الاتساق، الشكل، فرقعة المفاصل"
+                }
+            },
+            {
+                front: "Palmar Surface Palpation",
+                back: {
+                    term: "Palmar Surface Palpation",
+                    translation: "جس سطح الراحة",
+                    english: "Used to assess vibration",
+                    arabic: "يستخدم لتقييم الاهتزاز"
+                }
+            },
+            {
+                front: "Dorsal Surface Palpation",
+                back: {
+                    term: "Dorsal Surface Palpation",
+                    translation: "جس السطح الظهري",
+                    english: "Used to assess temperature",
+                    arabic: "يستخدم لتقييم درجة الحرارة"
+                }
+            },
+            {
+                front: "Components of Physical Examination",
+                back: {
+                    term: "Components of Physical Examination",
+                    translation: "مكونات الفحص الجسدي",
+                    english: "General Survey, Vital Signs Measurement, Height and Weight Measurement, Body System Examination",
+                    arabic: "المسح العام، قياس العلامات الحيوية، قياس الطول والوزن، فحص أجهزة الجسم"
+                }
+            },
+            {
+                front: "Environmental Preparation",
+                back: {
+                    term: "Environmental Preparation",
+                    translation: "تحضير البيئة",
+                    english: "Prepare equipment, ensure room is quiet, warm, and well-lit, maintain privacy",
+                    arabic: "تحضير المعدات، ضمان أن الغرفة هادئة، دافئة، ومضاءة جيداً، الحفاظ على الخصوصية"
+                }
+            },
+            {
+                front: "Guidelines for Effective Inspection",
+                back: {
+                    term: "Guidelines for Effective Inspection",
+                    translation: "إرشادات للفحص البصري الفعال",
+                    english: "Be systematic, fully expose area, use good light, maintain comfortable temperature, observe characteristics, compare bilateral structures",
+                    arabic: "كن منهجياً، اكشف المنطقة بالكامل، استخدم إضاءة جيدة، حافظ على درجة حرارة مريحة، لاحظ الخصائص، قارن الهياكل الثنائية"
+                }
+            },
+            {
+                front: "Principles for Accurate Palpation",
+                back: {
+                    term: "Principles for Accurate Palpation",
+                    translation: "مبادئ الجس الدقيق",
+                    english: "Short fingernails, start with light then deep, tender areas last, client must relax, slow deep breaths",
+                    arabic: "أظافر قصيرة، ابدأ بالخفيف ثم العميق، المناطق الحساسة أخيراً، المريض يجب أن يسترخي، أنفاس عميقة وبطيئة"
+                }
+            }
+        ];
+
+        let currentCardIndex = 0;
+
+        // Update Flashcard
+        function updateFlashcard() {
+            const card = flashcardsData[currentCardIndex];
+            document.getElementById('card-front-text').textContent = card.front;
+            document.getElementById('current-card').textContent = currentCardIndex + 1;
+            document.getElementById('total-cards').textContent = flashcardsData.length;
+            
+            const backDiv = document.querySelector('.flashcard-back');
+            backDiv.innerHTML = `
+                <h2>${card.back.term}</h2>
+                <h3>(${card.back.translation})</h3>
+                <div class="dual-text-row">
+                    <div class="english-side">${card.back.english}</div>
+                    <div class="arabic-side">${card.back.arabic}</div>
+                </div>
+            `;
+        }
+
+        // Flip Card
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        // Next Card
+        function nextCard() {
+            if (currentCardIndex < flashcardsData.length - 1) {
+                currentCardIndex++;
+                document.getElementById('flashcard').classList.remove('flipped');
+                updateFlashcard();
+            }
+        }
+
+        // Previous Card
+        function prevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                document.getElementById('flashcard').classList.remove('flipped');
+                updateFlashcard();
+            }
+        }
+
+        // Speak Flashcard
+        function speakFlashcard() {
+            const card = flashcardsData[currentCardIndex];
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(card.back.term);
+                u.lang = 'en-US';
+                u.rate = 0.75;
+                window.speechSynthesis.speak(u);
+            }
+        }
+
+        // Speak Text
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'en-US';
+                u.rate = 0.85;
+                window.speechSynthesis.speak(u);
+            }
+        }
+
+        // Check Answer
+        function checkAnswer(element, isCorrect) {
+            const options = element.parentElement.querySelectorAll('.option');
+            const explanation = element.parentElement.nextElementSibling;
+            
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('wrong');
+                options.forEach(opt => {
+                    if (opt !== element && !opt.classList.contains('wrong')) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+            
+            explanation.style.display = 'block';
+        }
+
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('dark', isDark);
+            document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Navigate to Page
+        function navigateToPage(id, link) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(id).classList.add('active-page');
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            link.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Header Hide on Scroll
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            let scroll = window.pageYOffset;
+            const header = document.querySelector('header');
+            if (scroll > lastScroll && scroll > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScroll = scroll;
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('dark') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+            updateFlashcard();
+            
+            // Hide welcome screen after 4 seconds
+            setTimeout(() => {
+                const w = document.getElementById('welcome-screen');
+                w.style.opacity = '0';
+                setTimeout(() => w.style.display = 'none', 500);
+            }, 4000);
+        });
+    </script>
+</body>
+</html>
